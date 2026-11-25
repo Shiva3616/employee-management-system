@@ -8,8 +8,13 @@ import com.ems.employee.entity.Employee;
 import com.ems.employee.mapper.EmployeeMapper;
 import com.ems.employee.repository.EmployeeRepository;
 
+import com.ems.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static java.util.stream.StreamSupport.stream;
 
 @Service
 public class EmployeeService {
@@ -36,5 +41,27 @@ public class EmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
 
         return EmployeeMapper.toResponse(savedEmployee);
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeResponse getEmployeeById(Long id) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Employee not found with ID: " + id
+                        )
+                );
+        return EmployeeMapper.toResponse(employee);
+    }
+
+    //receive all employees
+    @Transactional(readOnly = true)
+    public List<EmployeeResponse> getAllElements() {
+
+        return employeeRepository.findAll()
+                .stream()
+                .map(EmployeeMapper::toResponse)
+                .toList();
     }
 }

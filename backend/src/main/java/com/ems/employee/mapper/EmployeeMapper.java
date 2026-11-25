@@ -1,3 +1,4 @@
+
 package com.ems.employee.mapper;
 
 import com.ems.employee.dto.EmployeeRequest;
@@ -18,6 +19,11 @@ public class EmployeeMapper {
         employee.setEmail(request.getEmail());
         employee.setPhone(request.getPhone());
         employee.setDesignation(request.getDesignation());
+
+        // Missing mappings - now fixed
+        employee.setDepartmentId(request.getDepartmentId());
+        employee.setManagerId(request.getManagerId());
+
         employee.setJoiningDate(request.getJoiningDate());
         employee.setSalary(request.getSalary());
 
@@ -34,8 +40,12 @@ public class EmployeeMapper {
         response.setEmail(employee.getEmail());
         response.setPhone(employee.getPhone());
         response.setDesignation(employee.getDesignation());
+        response.setDepartmentId(employee.getDepartmentId());
+        response.setManagerId(employee.getManagerId());
         response.setJoiningDate(employee.getJoiningDate());
         response.setSalary(employee.getSalary());
+        response.setStatus(employee.getStatus());
+        response.setCreatedAt(employee.getCreatedAt());
         response.setUpdatedAt(employee.getUpdatedAt());
 
         return response;
